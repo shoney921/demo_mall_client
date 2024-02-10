@@ -1,19 +1,14 @@
 import React from "react";
 import { useNavigate, useParams } from "react-router";
+import ModifyComponent from "../../components/todo/ModifyComponent";
 
 export default function ModifyPage() {
   const { tno } = useParams();
 
-  const navigate = useNavigate();
-
-  const moveToRead = () => {
-    navigate({ pathname: `/todo/read/${tno}` });
-  };
-
-  return (
-    <div>
+   return (
+    <div className="w-full border-2">
       ModifyPage
-      <button onClick={moveToRead}> Move to Read</button>
+      <ModifyComponent tno={tno} />
     </div>
   );
 }
