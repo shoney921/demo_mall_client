@@ -23,7 +23,7 @@ export default function ReadComponent({ tno }) {
   }, [tno]);
 
   return (
-    <div>
+    <div className="w-full border-2">
       {makeDiv("Tno", todo.tno)}
       {makeDiv("Title", todo.title)}
       {makeDiv("Writer", todo.writer)}

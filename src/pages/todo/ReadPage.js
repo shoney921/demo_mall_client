@@ -6,7 +6,7 @@ export default function ReadPage() {
   const { tno } = useParams();
 
   return (
-    <div className="text text-3xl">
+    <div className="text-1xl w-full">
       <div>Read Page {tno}</div>
       <ReadComponent tno={tno} />
     </div>
