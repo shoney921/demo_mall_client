@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getList } from "../../api/todoApi";
 import useCustomMove from "../../hooks/useCustomMove";
+import PageComponent from "../common/PageComponent";
 
 const initState = {
   dtoList: [],
@@ -16,7 +17,7 @@ const initState = {
 };
 
 export default function ListComponent() {
-  const { page, size } = useCustomMove();
+  const { page, size, moveToList, refresh, moveToRead } = useCustomMove();
 
   const [serverData, setServerData] = useState(initState);
 
@@ -25,12 +26,16 @@ export default function ListComponent() {
       console.log(data);
       setServerData(data);
     });
-  }, [page, size]);
+  }, [page, size, refresh]);
 
   return (
     <div>
       {serverData.dtoList.map((todo) => (
-        <div key={todo.tno} className="shadow-md">
+        <div
+          key={todo.tno}
+          className="shadow-md"
+          onClick={() => moveToRead(todo.tno)}
+        >
           <div className="flex">
             <div className="w-1/12">{todo.tno}</div>
             <div className="w-8/12">{todo.title}</div>
@@ -38,6 +43,7 @@ export default function ListComponent() {
           </div>
         </div>
       ))}
+      <PageComponent serverData={serverData} movePage={moveToList} />
     </div>
   );
 }
