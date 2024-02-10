@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   createSearchParams,
   useSearchParams,
@@ -10,6 +11,8 @@ const getNum = (param, defaultValue) => {
 
 export default function useCustomMove() {
   const navigate = useNavigate();
+
+  const [refresh, setRefresh] = useState(false);
 
   // 페이지와 사이즈 쿼리 파라 존재하면 값 가져옴
   const [queryParams] = useSearchParams();
@@ -31,6 +34,8 @@ export default function useCustomMove() {
     } else {
       queryStr = queryDefault;
     }
+    setRefresh(!refresh);
+
     navigate({ pathname: "../list", search: queryStr });
   };
 
@@ -38,5 +43,9 @@ export default function useCustomMove() {
     navigate({ pathname: `../modify/${num}`, search: queryDefault });
   };
 
-  return { moveToList, moveToModify, page, size };
+  const moveToRead = (num) => {
+    navigate({ pathname: `../read/${num}`, search: queryDefault });
+  };
+
+  return { moveToList, moveToModify, moveToRead, page, size, refresh };
 }
