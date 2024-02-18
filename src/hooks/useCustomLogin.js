@@ -7,7 +7,7 @@ export default function useCustomLogin() {
 
   const dispatch = useDispatch();
 
-  const loginState = useSelector((state) => state.loginSlice);
+  const loginState = useSelector((state) => state.login);
 
   const isLogin = loginState.email ? true : false;
 
