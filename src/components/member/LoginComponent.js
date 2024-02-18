@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { login } from "../../slices/loginSlice";
+import { login, loginPostAsync } from "../../slices/loginSlice";
 
 const initState = {
   email: "",
@@ -14,13 +14,12 @@ export default function LoginComponent() {
 
   const handleChange = (e) => {
     loginParam[e.target.name] = e.target.value;
-
     setLoginParam({ ...loginParam });
   };
 
   const handleClickLogin = (e) => {
-    console.log(loginParam);
-    dispatch(login(loginParam));
+    // dispatch(login(loginParam));
+    dispatch(loginPostAsync(loginParam));
   };
 
   return (
