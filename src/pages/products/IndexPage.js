@@ -1,31 +1,23 @@
-import React, { useCallback } from "react";
+import React from "react";
 import { Outlet, useNavigate } from "react-router";
 import BasicLayout from "../../layouts/BasicLayout";
 
 export default function IndexPage() {
   const navigate = useNavigate();
 
-  const handleClickList = useCallback(() => {
-    navigate({ pathname: "list" });
-  }, []);
-
-  const handleClickAdd = useCallback(() => {
-    navigate({ pathname: "add" });
-  }, []);
-
   return (
     <BasicLayout>
-      Todo Menus
+      Products Menus
       <div className="flex m-2 p-2">
         <div
           className="text-xl m-1 p-2 w-20 font-extrabold text-center underline"
-          onClick={handleClickList}
+          onClick={() => navigate("list")}
         >
           List
         </div>
         <div
           className="text-xl m-1 p-2 w-20 font-extrabold text-center underline"
-          onClick={handleClickAdd}
+          onClick={() => navigate("add")}
         >
           Add
         </div>
