@@ -13,12 +13,12 @@ const loginSlice = createSlice({
   name: "loginSlice",
   initialState: initState,
   reducers: {
-    login: (state, action) => {
-      console.log("Login............", action);
-      console.log(action.payload);
-      console.log("------------------");
-      return { email: action.payload.email };
-    },
+    // login: (state, action) => {  //createAsyncThunk로 대체
+    //   console.log("Login............", action);
+    //   console.log(action.payload);
+    //   console.log("------------------");
+    //   return { email: action.payload.email };
+    // },
     logout: (state, action) => {
       console.log("Logout...........");
       return { ...initState };

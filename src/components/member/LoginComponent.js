@@ -20,8 +20,11 @@ export default function LoginComponent() {
   };
 
   const handleClickLogin = (e) => {
-    // dispatch(login(loginParam));  // 1번째 방식
-    // dispatch(loginPostAsync(loginParam))  //2번째 방식
+    // 1번째 방식
+    // dispatch(login(loginParam));
+
+    // 2번째 방식
+    // dispatch(loginPostAsync(loginParam))
     //   .unwrap() //비동기를 동기처럼 받아서 쓸수있음
     //   .then((data) => {
     //     if (data.error) {
@@ -35,8 +38,9 @@ export default function LoginComponent() {
     // 3번째 방식
     doLogin(loginParam).then((data) => {
       if (data.error) {
-        alert("이메일과 비밀번호를 확인해주세요.");
+        alert("이메일과 비밀번호를 확인해주세요");
       } else {
+        alert("로그인 성공");
         moveToPath("/");
       }
     });
