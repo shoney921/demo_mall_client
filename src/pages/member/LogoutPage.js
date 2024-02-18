@@ -1,12 +1,12 @@
 import React from "react";
-import LoginComponent from "../../components/member/LoginComponent";
+import LogoutComponent from "../../components/member/LogoutComponent";
 import BasicMenu from "../../components/menus/BasicMenu";
 
-export default function LoginPage() {
+export default function LogoutPage() {
   return (
     <div className="h-full w-full">
       <BasicMenu />
-      <LoginComponent />
+      <LogoutComponent />
     </div>
   );
 }
