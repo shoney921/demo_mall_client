@@ -4,9 +4,6 @@ import { Link } from "react-router-dom";
 
 export default function BasicMenu() {
   const loginState = useSelector((state) => state.loginSlice);
-
-  console.log("loginState : " + loginState);
-  console.log(loginState.email);
   return (
     <nav id="navbar" className=" flex bg-black">
       <div className="w-full bg-gray-800">
@@ -34,7 +31,11 @@ export default function BasicMenu() {
       </div>
       <div className="w-30 flex justify-end bg-orange-200 p-4 font-medium">
         <div className=" text-sm m-1 rounded text-gray-800">
-          <Link to={"/member/login"}>Login</Link>
+          {loginState.email ? (
+            <Link to={"/member/logout"}>Logout</Link>
+          ) : (
+            <Link to={"/member/login"}>Login</Link>
+          )}
         </div>
       </div>
     </nav>
