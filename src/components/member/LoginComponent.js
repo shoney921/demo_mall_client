@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router";
+import useCustomLogin from "../../hooks/useCustomLogin";
 import { login, loginPostAsync } from "../../slices/loginSlice";
 
 const initState = {
@@ -10,7 +12,7 @@ const initState = {
 export default function LoginComponent() {
   const [loginParam, setLoginParam] = useState({ ...initState });
 
-  const dispatch = useDispatch();
+  const { doLogin, moveToPath } = useCustomLogin();
 
   const handleChange = (e) => {
     loginParam[e.target.name] = e.target.value;
@@ -18,8 +20,26 @@ export default function LoginComponent() {
   };
 
   const handleClickLogin = (e) => {
-    // dispatch(login(loginParam));
-    dispatch(loginPostAsync(loginParam));
+    // dispatch(login(loginParam));  // 1번째 방식
+    // dispatch(loginPostAsync(loginParam))  //2번째 방식
+    //   .unwrap() //비동기를 동기처럼 받아서 쓸수있음
+    //   .then((data) => {
+    //     if (data.error) {
+    //       alert("이메일과 패스워드를 확인해 주세요");
+    //     } else {
+    //       alert("로그인 성공");
+    //       navigate({ pathname: "/" }, { replace: true }); // 리플레이스 해줘야지 뒤로가기 안먹힘
+    //     }
+    //   });
+
+    // 3번째 방식
+    doLogin(loginParam).then((data) => {
+      if (data.error) {
+        alert("이메일과 비밀번호를 확인해주세요.");
+      } else {
+        moveToPath("/");
+      }
+    });
   };
 
   return (
