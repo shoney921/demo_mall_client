@@ -1,5 +1,6 @@
 import axios from "axios";
 import { API_SERVER_HOST } from "./todoApi";
+import jwtAxios from "../util/jwtUtil";
 
 const prefix = `${API_SERVER_HOST}/api/products`;
 
@@ -18,7 +19,7 @@ export const getList = async (pageParam) => {
 };
 
 export const getOne = async (pno) => {
-  const res = await axios.get(`${prefix}/${pno}`);
+  const res = await jwtAxios.get(`${prefix}/${pno}`);
   return res.data;
 };
 
