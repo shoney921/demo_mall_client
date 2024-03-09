@@ -24,12 +24,14 @@ const loginSlice = createSlice({
   name: "loginSlice",
   initialState: loadMemberCookie() || initState,
   reducers: {
-    // login: (state, action) => {  //createAsyncThunk로 대체
-    //   console.log("Login............", action);
-    //   console.log(action.payload);
-    //   console.log("------------------");
-    //   return { email: action.payload.email };
-    // },
+    login: (state, action) => {
+      console.log("Login............", action);
+      console.log(action.payload);
+      console.log("------------------");
+
+      setCookie("member", JSON.stringify(action.payload), 1);
+      return action.payload;
+    },
     logout: (state, action) => {
       console.log("Logout...........");
       removeCookie("member");
