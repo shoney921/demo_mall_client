@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 export default function BasicMenu() {
-  const loginState = useSelector((state) => state.login);
+  const loginState = useSelector((state) => state.loginSlice);
   return (
     <nav id="navbar" className=" flex bg-black">
       <div className="w-full bg-gray-800">

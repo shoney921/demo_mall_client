@@ -6,7 +6,7 @@ export default function ModifyPage() {
   return (
     <BasicLayout>
       <div> Member Modify Page</div>
-      <div>
+      <div className="bg-white w-full mt-4 p-2">
         <ModifyComponent></ModifyComponent>
       </div>
     </BasicLayout>

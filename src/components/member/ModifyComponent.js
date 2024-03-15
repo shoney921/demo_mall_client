@@ -8,11 +8,14 @@ const initState = {
 };
 
 export default function ModifyComponent() {
-  const [member, setMember] = useState();
+  const [member, setMember] = useState(initState);
 
   const loginInfo = useSelector((state) => state.loginSlice);
 
   useEffect(() => {
+    console.log("##################");
+    console.log(member);
+    console.log(loginInfo); //여기서 언디파인드 뜨는 이유?
     setMember({ ...loginInfo, pw: "ABCD" });
   }, [loginInfo]);
 
