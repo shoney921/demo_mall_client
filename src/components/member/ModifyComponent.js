@@ -65,6 +65,49 @@ export default function ModifyComponent() {
       )}
       <div className="flex justify-center">
         <div className="relative mb-4 flex w-full flex-wrap items-stretch">
+          <div className="w-1/5 p-6 text-right font-bold">email</div>
+          <input
+            className="w-3/5 p-6 rounded-r border border-solid border-neutral-300 shadow-md"
+            name="email"
+            type={"text"}
+            value={member.email}
+            onChange={handleChange}
+          ></input>
+          <button
+            type="button"
+            className="w-1/5 rounded p-4 text-xl  text-white bg-blue-500"
+            onClick={handleClickCheckDup}
+          >
+            메일인증
+          </button>
+        </div>
+      </div>
+      <div className="flex justify-center">
+        <div className="relative mb-4 flex w-full flex-wrap items-stretch">
+          <div className="w-1/5 p-6 text-right font-bold">password</div>
+          <input
+            className="w-3/5 p-6 rounded-r border border-solid border-neutral-300 shadow-md"
+            name="nickname"
+            type={"text"}
+            value={member.nickname}
+            onChange={handleChange}
+          ></input>
+        </div>
+      </div>
+      <div className="flex justify-center">
+        <div className="relative mb-4 flex w-full flex-wrap items-stretch">
+          <div className="w-1/5 p-6 text-right font-bold">pw check</div>
+          <input
+            className="w-3/5 p-6 rounded-r border border-solid border-neutral-300 shadow-md"
+            name="nickname"
+            type={"text"}
+            value={member.nickname}
+            onChange={handleChange}
+          ></input>
+        </div>
+      </div>
+      <div className="flex justify-center">
+        <div className="relative mb-4 flex w-full flex-wrap items-stretch">
           <div className="w-1/5 p-6 text-right font-bold">Nickname</div>
           <input
             className="w-3/5 p-6 rounded-r border border-solid border-neutral-300 shadow-md"
