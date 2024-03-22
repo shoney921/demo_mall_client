@@ -24,3 +24,9 @@ export const checkDuplicateNickname = async (nickname) => {
   const res = await axios.get(`${host}/duplicate?nickname=${nickname}`);
   return res.data;
 };
+
+export const sendEmailVerification = async (email) => {
+  // todo 아래 서버 구현 이후 주석 해제
+  // const res = await axios.get(`${host}/email?id=${email}`);
+  return false;
+};
