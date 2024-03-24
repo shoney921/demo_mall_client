@@ -3,6 +3,7 @@ import { loginPost } from "../api/memberApi";
 import { getCookie, removeCookie, setCookie } from "../util/cookieUtil";
 
 const initState = {
+  id: "",
   email: "",
 };
 
