@@ -15,7 +15,7 @@ export default function BasicMenu() {
             <Link to={"/about"}>About</Link>{" "}
           </li>
 
-          {loginState.email ? (
+          {loginState.id ? (
             <>
               <li className="pr-6 text-2xl">
                 <Link to={"/todo"}>Todo</Link>{" "}
@@ -31,7 +31,7 @@ export default function BasicMenu() {
       </div>
       <div className="w-30 flex justify-end bg-orange-200 p-4 font-medium">
         <div className=" text-sm m-1 rounded text-gray-800">
-          {loginState.email ? (
+          {loginState.id ? (
             <Link to={"/member/logout"}>Logout</Link>
           ) : (
             <Link to={"/member/login"}>Login</Link>

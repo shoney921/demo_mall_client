@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
 import useCustomLogin from "../../hooks/useCustomLogin";
 import { login, loginPostAsync } from "../../slices/loginSlice";
 import KaKaoLoginComponent from "./KaKaoLoginComponent";
@@ -47,47 +48,55 @@ export default function LoginComponent() {
     });
   };
 
+  const handleClickSignup = () => {
+    moveToPath("/member/signup");
+  };
+
   return (
-    <div className="border-2 border-sky-200 mt-10 m-2 p-4">
-      <div className="flex justify-center">
-        <div className="text-4xl m-4 p-4 font-extrabold text-blue-500">
-          Login Component
-        </div>
+    <div className="container mx-auto mt-10">
+      <div className="text-center text-4xl font-extrabold text-blue-500 mb-8">
+        Login
       </div>
-      <div className="flex justify-center">
-        <div className="relative mb-4 flex w-full flex-wrap items-stretch">
-          <div className="w-2/5 p-6 text-right font-bold">Email</div>
+      <div className="flex justify-center mb-4">
+        <div className="flex items-center w-full max-w-lg">
+          <div className="w-1/3 text-right font-bold pr-4">Email:</div>
           <input
-            className="w-1/5 p-6 rounded-r border border-solid border-neutral-500 shadow-md"
+            className="w-2/3 p-3 rounded border border-solid border-gray-300 shadow-md"
             name="email"
-            type={"text"}
+            type="text"
             value={loginParam.email}
             onChange={handleChange}
-          ></input>
+          />
         </div>
       </div>
-      <div className="flex justify-center">
-        <div className="relative mb-4 flex w-full flex-wrap items-stretch">
-          <div className="w-2/5 p-6 text-right font-bold">Password</div>
+      <div className="flex justify-center mb-4">
+        <div className="flex items-center w-full max-w-lg">
+          <div className="w-1/3 text-right font-bold pr-4">Password:</div>
           <input
-            className="w-1/5 p-6 rounded-r border border-solid border-neutral-500 shadow-md"
+            className="w-2/3 p-3 rounded border border-solid border-gray-300 shadow-md"
             name="pw"
-            type={"password"}
+            type="password"
             value={loginParam.pw}
             onChange={handleChange}
-          ></input>
+          />
         </div>
       </div>
-      <div className="flex justify-center">
-        <div className="relative mb-4 flex w-full justify-center">
-          <div className="w-2/5 p-6 flex justify-center font-bold">
-            <button
-              className="rounded p-4 w-36 bg-blue-500 text-xl text-white"
-              onClick={handleClickLogin}
+      <div className="flex justify-end mb-4">
+        <div className="flex items-center w-full max-w-lg">
+          <div className="mr-10">
+            <Link
+              className="text-blue-500 hover:underline"
+              onClick={handleClickSignup}
             >
-              LOGIN
-            </button>
+              회원가입
+            </Link>
           </div>
+          <button
+            className="px-6 py-3 bg-blue-500 text-white text-lg font-semibold rounded shadow-md hover:bg-blue-600 transition-colors duration-300"
+            onClick={handleClickLogin}
+          >
+            LOGIN
+          </button>
         </div>
       </div>
       <KaKaoLoginComponent />

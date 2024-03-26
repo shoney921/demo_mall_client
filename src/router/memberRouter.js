@@ -5,6 +5,7 @@ const Login = lazy(() => import("../pages/member/LoginPage"));
 const Logout = lazy(() => import("../pages/member/LogoutPage"));
 const KakaoRedirect = lazy(() => import("../pages/member/KakaoRedirectPage"));
 const MemberModify = lazy(() => import("../pages/member/ModifyPage"));
+const SingupPage = lazy(() => import("../pages/member/SingupPage"));
 
 export default function memberRouter() {
   return [
@@ -37,6 +38,14 @@ export default function memberRouter() {
       element: (
         <Suspense fallback={Loading}>
           <MemberModify />
+        </Suspense>
+      ),
+    },
+    {
+      path: "signup",
+      element: (
+        <Suspense fallback={Loading}>
+          <SingupPage />
         </Suspense>
       ),
     },
