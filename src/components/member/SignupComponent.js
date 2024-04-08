@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { checkDuplicateNickname } from "../../api/memberApi";
 
 export default function SignupComponent() {
   const [formData, setFormData] = useState({
@@ -6,10 +7,12 @@ export default function SignupComponent() {
     password: "",
     confirmPassword: "",
     phoneNumber: "",
-    name: "",
+    nickname: "",
   });
 
   const [errors, setErrors] = useState({});
+
+  const [nicknameError, setNickNameError] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
@@ -49,6 +52,13 @@ export default function SignupComponent() {
     }
   };
 
+  const handleClickCheckDup = () => {
+    checkDuplicateNickname(formData.nickname).then((result) => {
+      console.log(result.result);
+      setNickNameError(result.result === "true");
+    });
+  };
+
   return (
     <div className="container mx-auto mt-10">
       <div className="text-center text-4xl font-extrabold text-blue-500 mb-8">
@@ -64,16 +74,18 @@ export default function SignupComponent() {
                 errors.email ? "border-red-500" : "border-gray-300"
               } shadow-md`}
               name="email"
-              type="email"
+              type="id"
               value={formData.email}
               onChange={handleChange}
             />
           </div>
-          {/* 에러 메시지 표시 */}
-          {errors.email && (
-            <div className="w-2/3 ml-1 text-red-500">{errors.email}</div>
-          )}
         </div>
+        {/* 에러 메시지 표시 */}
+        {errors.email && (
+          <div className="flex justify-center mb-4 text-red-500">
+            {errors.email}
+          </div>
+        )}
         {/* 패스워드 입력 필드 */}
         <div className="flex justify-center mb-4">
           <div className="flex items-center w-full max-w-lg">
@@ -120,8 +132,36 @@ export default function SignupComponent() {
         )}
         {/* 휴대폰번호 입력 필드 */}
         <div className="flex justify-center mb-4">{/* 휴대폰번호 입력 */}</div>
-        {/* 이름 입력 필드 */}
-        <div className="flex justify-center mb-4">{/* 이름 입력 */}</div>
+        <div className="flex justify-center">
+          <div className="relative mb-4 flex w-full flex-wrap items-stretch">
+            <div className="w-1/5 p-6 text-right font-bold">Nickname</div>
+            <input
+              className="w-3/5 p-6 rounded-r border border-solid border-neutral-300 shadow-md"
+              name="nickname"
+              type={"text"}
+              value={formData.nickname}
+              onChange={handleChange}
+            ></input>
+            <button
+              type="button"
+              className="w-1/5 rounded p-4 text-xl  text-white bg-blue-500"
+              onClick={handleClickCheckDup}
+            >
+              중복확인
+            </button>
+          </div>
+        </div>
+        <div className="text-red-600 pb-3">
+          {nicknameError != null && nicknameError ? (
+            <div className="flex justify-center">
+              <div className="text-red-600">닉네임이 중복됩니다.</div>
+            </div>
+          ) : (
+            <div className="flex justify-center">
+              <div className="text-green-600">사용가능합니다.</div>
+            </div>
+          )}
+        </div>
         {/* 회원가입 버튼 */}
         <div className="flex justify-center">
           <button
