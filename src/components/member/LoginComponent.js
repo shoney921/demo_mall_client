@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
+import { getMemberId } from "../../api/memberApi";
 import useCustomLogin from "../../hooks/useCustomLogin";
 import { login, loginPostAsync } from "../../slices/loginSlice";
 import KaKaoLoginComponent from "./KaKaoLoginComponent";
@@ -9,6 +10,7 @@ import KaKaoLoginComponent from "./KaKaoLoginComponent";
 const initState = {
   email: "",
   pw: "",
+  id: "",
 };
 
 export default function LoginComponent() {
@@ -22,30 +24,27 @@ export default function LoginComponent() {
   };
 
   const handleClickLogin = (e) => {
-    // 1번째 방식
-    // dispatch(login(loginParam));
-
-    // 2번째 방식
-    // dispatch(loginPostAsync(loginParam))
-    //   .unwrap() //비동기를 동기처럼 받아서 쓸수있음
-    //   .then((data) => {
-    //     if (data.error) {
-    //       alert("이메일과 패스워드를 확인해 주세요");
-    //     } else {
-    //       alert("로그인 성공");
-    //       navigate({ pathname: "/" }, { replace: true }); // 리플레이스 해줘야지 뒤로가기 안먹힘
-    //     }
-    //   });
-
-    // 3번째 방식
-    doLogin(loginParam).then((data) => {
-      if (data.error) {
-        alert("이메일과 비밀번호를 확인해주세요");
-      } else {
-        alert("로그인 성공");
-        moveToPath("/");
-      }
-    });
+    getMemberId(loginParam.email)
+      .then((data) => {
+        if (data.error || data.result === -1) {
+          alert("존재하지 않는 이메일입니다.");
+          return Promise.reject("Invalid email");
+        } else {
+          loginParam.id = data.result;
+          return doLogin(loginParam);
+        }
+      })
+      .then((data) => {
+        if (data.error) {
+          alert("이메일과 비밀번호를 확인해주세요");
+        } else {
+          alert("로그인 성공");
+          moveToPath("/");
+        }
+      })
+      .catch((error) => {
+        console.error("Login error:", error);
+      });
   };
 
   const handleClickSignup = () => {

@@ -10,7 +10,7 @@ export default function useCustomLogin() {
 
   const loginState = useSelector((state) => state.loginSlice);
 
-  const isLogin = loginState.email ? true : false;
+  const isLogin = loginState.id ? true : false;
 
   const doLogin = async (loginParam) => {
     const action = await dispatch(loginPostAsync(loginParam));

@@ -7,7 +7,7 @@ export const loginPost = async (loginParam) => {
   const header = { headers: { "Content-Type": "x-www-form-urlencoded" } };
 
   const form = new FormData();
-  form.append("username", loginParam.email);
+  form.append("username", loginParam.id);
   form.append("password", loginParam.pw);
 
   const res = await axios.post(`${host}/login`, form, header);
@@ -26,12 +26,21 @@ export const checkDuplicateNickname = async (nickname) => {
 };
 
 export const createNewMember = async (signupParam) => {
+  const header = { headers: { "Content-Type": "application/json" } };
   const form = new FormData();
   form.append("email", signupParam.email);
   form.append("pw", signupParam.password);
   form.append("nickname", signupParam.nickname);
+  console.log("axios" + form);
+  const res = await axios.post(`${host}/signup`, form, header);
+  return res.data;
+};
 
-  const res = await axios.post(`${host}/signup`, form);
+export const getMemberId = async (email) => {
+  const header = { headers: { "Content-Type": "application/json" } };
+  const form = new FormData();
+  form.append("email", email);
+  const res = await axios.post(`${host}/email`, form, header);
   return res.data;
 };
 
