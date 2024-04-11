@@ -1,25 +1,25 @@
 import React, { useState } from "react";
-import { checkDuplicateNickname } from "../../api/memberApi";
+import { checkDuplicateNickname, createNewMember } from "../../api/memberApi";
+import useCustomLogin from "../../hooks/useCustomLogin";
+
+const initState = {
+  email: "",
+  password: "",
+  confirmPassword: "",
+  phoneNumber: "",
+  nickname: "",
+};
 
 export default function SignupComponent() {
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-    confirmPassword: "",
-    phoneNumber: "",
-    nickname: "",
-  });
+  const [formData, setFormData] = useState({ ...initState });
 
   const [errors, setErrors] = useState({});
-
   const [nicknameError, setNickNameError] = useState(false);
+  const { moveToLogin } = useCustomLogin();
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-    // 에러 메시지 초기화
+    formData[e.target.name] = e.target.value;
+    setFormData({ ...formData });
     setErrors({});
   };
 
@@ -36,19 +36,23 @@ export default function SignupComponent() {
     if (formData.password !== formData.confirmPassword) {
       errors.confirmPassword = "비밀번호가 일치하지 않습니다.";
     }
-    if (!formData.phoneNumber.match(/^\d{10,11}$/)) {
-      errors.phoneNumber = "유효한 휴대폰 번호를 입력하세요.";
-    }
-    if (formData.name.trim() === "") {
-      errors.name = "이름을 입력하세요.";
+    // if (!formData.phoneNumber.match(/^\d{10,11}$/)) {
+    //   errors.phoneNumber = "유효한 휴대폰 번호를 입력하세요.";
+    // }
+    if (nicknameError) {
+      errors.nickname = "닉네임 중복 발생";
     }
 
     setErrors(errors);
 
+    console.log(errors);
     if (Object.keys(errors).length === 0) {
       // 회원가입 폼 데이터 처리 로직
       console.log("회원가입 폼 데이터:", formData);
       // 여기에 서버에 회원가입 정보 전송하는 로직 추가
+      createNewMember(formData).then((result) => {
+        moveToLogin();
+      });
     }
   };
 
