@@ -35,7 +35,7 @@ export default function AboutPage() {
           나가는 모든 이들에게 이상한 일주일의 매력을 느낄 수 있기를 바랍니다.
           함께라면 어떤 변화도 이겨내고, 더 나은 미래를 향해 나아갈 수 있습니다.
         </div>
-        <div className="flex justify-end">
+        <div className="flex justify-end m-3">
           <Link to="/"> go main </Link>
         </div>
       </div>

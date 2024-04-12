@@ -7,7 +7,7 @@ const MainPage = () => {
   return (
     <BasicLayout>
       <img src={mainImg} alt="mainImg" />
-      <div>
+      <div className="flex justify-end m-3">
         <Link to={"/about"}>go about</Link>
       </div>
     </BasicLayout>
