@@ -21,7 +21,7 @@ const cartSlice = createSlice({
     builder
       .addCase(getCartItemsAsync.fulfilled, (state, action) => {
         console.log("getCartItemsAsync.fulfilled");
-        console.log(action.fulfilled);
+        console.log(action.payload);
         return action.payload; // action.payload 에 데이터가 들어가 있다.
       })
       .addCase(postChangeCartAcync.fulfilled, (state, action) => {
