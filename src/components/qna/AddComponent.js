@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { postAdd } from "../../api/todoApi";
+import { postAdd } from "../../api/qnaApi";
 import useCustomMove from "../../hooks/useCustomMove";
 import ResultModal from "../common/ResultModal";
 
@@ -10,26 +10,26 @@ const initState = {
 };
 
 export default function AddComponent() {
-  const [todo, setTodo] = useState({ ...initState });
+  const [qna, setQna] = useState({ ...initState });
 
   const [result, setResult] = useState(null);
 
   const { moveToList } = useCustomMove();
 
-  const handleChangeTodo = (e) => {
+  const handleChangeQna = (e) => {
     console.log(e.target);
-    todo[e.target.name] = e.target.value;
-    setTodo({ ...todo });
+    qna[e.target.name] = e.target.value;
+    setQna({ ...qna });
   };
 
   const handleClickAdd = () => {
-    postAdd(todo).then((data) => {
+    postAdd(qna).then((data) => {
       setResult(data.result);
     });
   };
 
   const closeModal = () => {
-    setTodo({ ...initState });
+    setQna({ ...initState });
     setResult(null);
     moveToList({ page: 1 });
   };
@@ -43,8 +43,8 @@ export default function AddComponent() {
             className="w-4/5 p-6 rounded-r border border-solid border-neutral-500 shadow-md"
             name="title"
             type={"text"}
-            value={todo.title}
-            onChange={handleChangeTodo}
+            value={qna.title}
+            onChange={handleChangeQna}
           ></input>
         </div>
       </div>
@@ -55,8 +55,8 @@ export default function AddComponent() {
             className="w-4/5 p-6 rounded-r border border-solid border-neutral-500 shadow-md"
             name="writer"
             type={"text"}
-            value={todo.writer}
-            onChange={handleChangeTodo}
+            value={qna.writer}
+            onChange={handleChangeQna}
           ></input>
         </div>
       </div>
@@ -67,8 +67,8 @@ export default function AddComponent() {
             className="w-4/5 p-6 rounded-r border border-solid border-neutral-500 shadow-md"
             name="dueDate"
             type={"date"}
-            value={todo.dueDate}
-            onChange={handleChangeTodo}
+            value={qna.dueDate}
+            onChange={handleChangeQna}
           ></input>
         </div>
       </div>

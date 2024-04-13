@@ -1,34 +1,34 @@
 import React, { useEffect, useState } from "react";
-import { getOne } from "../../api/todoApi";
+import { getOne } from "../../api/qnaApi";
 import useCustomMove from "../../hooks/useCustomMove";
 
 const initState = {
-  tno: 0,
+  qno: 0,
   title: "",
   writer: "",
   dueDate: "",
   complete: false,
 };
 
-export default function ReadComponent({ tno }) {
-  const [todo, setTodo] = useState(initState);
+export default function ReadComponent({ qno }) {
+  const [qna, setQna] = useState(initState);
 
   const { moveToList, moveToModify } = useCustomMove();
 
   useEffect(() => {
-    getOne(tno).then((data) => {
+    getOne(qno).then((data) => {
       console.log(data);
-      setTodo(data);
+      setQna(data);
     });
-  }, [tno]);
+  }, [qno]);
 
   return (
     <div className="w-full border-2">
-      {makeDiv("Tno", todo.tno)}
-      {makeDiv("Title", todo.title)}
-      {makeDiv("Writer", todo.writer)}
-      {makeDiv("Due Date", todo.dueDate)}
-      {makeDiv("complete", todo.complete)}
+      {makeDiv("Tno", qna.qno)}
+      {makeDiv("Title", qna.title)}
+      {makeDiv("Writer", qna.writer)}
+      {makeDiv("Due Date", qna.dueDate)}
+      {makeDiv("complete", qna.complete)}
 
       <div className="flex justify-end">
         <button
@@ -42,7 +42,7 @@ export default function ReadComponent({ tno }) {
         <button
           type="button"
           className="rounded p-4 m-2 w-32 bg-red-500"
-          onClick={() => moveToModify(todo.tno)}
+          onClick={() => moveToModify(qna.qno)}
         >
           Modify
         </button>

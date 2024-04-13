@@ -18,7 +18,7 @@ export default function BasicMenu() {
           {loginState.id ? (
             <>
               <li className="pr-6 text-2xl">
-                <Link to={"/todo"}>Todo</Link>{" "}
+                <Link to={"/qna"}>Q&A</Link>{" "}
               </li>
               <li className="pr-6 text-2xl">
                 <Link to={"/products"}>Products</Link>{" "}

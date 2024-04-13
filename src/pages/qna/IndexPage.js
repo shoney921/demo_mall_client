@@ -15,7 +15,7 @@ export default function IndexPage() {
 
   return (
     <BasicLayout>
-      Todo Menus
+      Qna Menus
       <div className="flex m-2 p-2">
         <div
           className="text-xl m-1 p-2 w-20 font-extrabold text-center underline"

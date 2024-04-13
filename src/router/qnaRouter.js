@@ -2,12 +2,12 @@ import React, { lazy, Suspense } from "react";
 import { Navigate } from "react-router";
 
 const Loading = <div>Loading....</div>;
-const TodoList = lazy(() => import("../pages/todo/ListPage"));
-const TodoRead = lazy(() => import("../pages/todo/ReadPage"));
-const TodoAdd = lazy(() => import("../pages/todo/AddPage"));
-const TodoModify = lazy(() => import("../pages/todo/ModifyPage"));
+const QnaList = lazy(() => import("../pages/qna/ListPage"));
+const QnaRead = lazy(() => import("../pages/qna/ReadPage"));
+const QnaAdd = lazy(() => import("../pages/qna/AddPage"));
+const QnaModify = lazy(() => import("../pages/qna/ModifyPage"));
 
-export default function todoRouter() {
+export default function qnaRouter() {
   return [
     {
       path: "",
@@ -17,15 +17,15 @@ export default function todoRouter() {
       path: "list",
       element: (
         <Suspense fallback={Loading}>
-          <TodoList />
+          <QnaList />
         </Suspense>
       ),
     },
     {
-      path: "read/:tno",
+      path: "read/:qno",
       element: (
         <Suspense fallback={Loading}>
-          <TodoRead />
+          <QnaRead />
         </Suspense>
       ),
     },
@@ -33,15 +33,15 @@ export default function todoRouter() {
       path: "add",
       element: (
         <Suspense fallback={Loading}>
-          <TodoAdd />
+          <QnaAdd />
         </Suspense>
       ),
     },
     {
-      path: "modify/:tno",
+      path: "modify/:qno",
       element: (
         <Suspense fallback={Loading}>
-          <TodoModify />
+          <QnaModify />
         </Suspense>
       ),
     },

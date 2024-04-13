@@ -1,14 +1,14 @@
 import React from "react";
 import { useParams } from "react-router";
-import ReadComponent from "../../components/todo/ReadComponent";
+import ReadComponent from "../../components/qna/ReadComponent";
 
 export default function ReadPage() {
-  const { tno } = useParams();
+  const { qno } = useParams();
 
   return (
     <div className="text-1xl w-full">
-      <div>Read Page {tno}</div>
-      <ReadComponent tno={tno} />
+      <div>Read Page {qno}</div>
+      <ReadComponent qno={qno} />
     </div>
   );
 }

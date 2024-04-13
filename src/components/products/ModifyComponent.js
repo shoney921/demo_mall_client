@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { deleteOne, getOne, putOne } from "../../api/productsApi";
-import { API_SERVER_HOST } from "../../api/todoApi";
+import { API_SERVER_HOST } from "../../api/qnaApi";
 import useCustomMove from "../../hooks/useCustomMove";
 import FetchingModal from "../common/FetchingModal";
 import ResultModal from "../common/ResultModal";

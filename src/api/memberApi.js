@@ -1,5 +1,5 @@
 import axios from "axios";
-import { API_SERVER_HOST } from "./todoApi";
+import { API_SERVER_HOST } from "./qnaApi";
 
 const host = `${API_SERVER_HOST}/api/member`;
 
@@ -42,7 +42,7 @@ export const getMemberId = async (email) => {
 };
 
 export const sendEmailVerification = async (email) => {
-  // todo 아래 서버 구현 이후 주석 해제
+  // qna 아래 서버 구현 이후 주석 해제
   // const res = await axios.get(`${host}/email?id=${email}`);
   return false;
 };

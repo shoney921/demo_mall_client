@@ -1,6 +1,6 @@
 import React from "react";
 import jwtAxios from "../util/jwtUtil";
-import { API_SERVER_HOST } from "./todoApi";
+import { API_SERVER_HOST } from "./qnaApi";
 
 const host = `${API_SERVER_HOST}/api/cart`;
 

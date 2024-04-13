@@ -2,12 +2,12 @@ import { Suspense, lazy } from "react";
 import { createBrowserRouter } from "react-router-dom";
 import memberRouter from "./memberRouter";
 import { productsRouter } from "./productsRouter";
-import todoRouter from "./todoRouter";
+import qnaRouter from "./qnaRouter";
 
 const Loading = <div className="bg-red-500"> Loading....</div>;
 const Main = lazy(() => import("../pages/MainPage"));
 const About = lazy(() => import("../pages/AboutPage"));
-const TodoIndex = lazy(() => import("../pages/todo/IndexPage"));
+const QnaIndex = lazy(() => import("../pages/qna/IndexPage"));
 const ProductsIndex = lazy(() => import("../pages/products/IndexPage"));
 
 export const root = createBrowserRouter([
@@ -28,13 +28,13 @@ export const root = createBrowserRouter([
     ),
   },
   {
-    path: "todo",
+    path: "qna",
     element: (
       <Suspense fallback={Loading}>
-        <TodoIndex />
+        <QnaIndex />
       </Suspense>
     ),
-    children: todoRouter(),
+    children: qnaRouter(),
   },
   {
     path: "products",

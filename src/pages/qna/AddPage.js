@@ -1,5 +1,5 @@
 import React from "react";
-import AddComponent from "../../components/todo/AddComponent";
+import AddComponent from "../../components/qna/AddComponent";
 
 export default function AddPage() {
   return (

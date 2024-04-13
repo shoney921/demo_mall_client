@@ -1,6 +1,6 @@
 import axios from "axios";
 import React from "react";
-import { API_SERVER_HOST } from "./todoApi";
+import { API_SERVER_HOST } from "./qnaApi";
 
 const rest_api_key = "59ff3eb95f7f6ae20d0c8a53af4cfc85";
 const redirect_uri = "http://localhost:3000/member/kakao";

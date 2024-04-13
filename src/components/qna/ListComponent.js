@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getList } from "../../api/todoApi";
+import { getList } from "../../api/qnaApi";
 import useCustomLogin from "../../hooks/useCustomLogin";
 import useCustomMove from "../../hooks/useCustomMove";
 import PageComponent from "../common/PageComponent";
@@ -34,16 +34,16 @@ export default function ListComponent() {
 
   return (
     <div>
-      {serverData.dtoList.map((todo) => (
+      {serverData.dtoList.map((qna) => (
         <div
-          key={todo.tno}
+          key={qna.qno}
           className="shadow-md"
-          onClick={() => moveToRead(todo.tno)}
+          onClick={() => moveToRead(qna.qno)}
         >
           <div className="flex">
-            <div className="w-1/12">{todo.tno}</div>
-            <div className="w-8/12">{todo.title}</div>
-            <div className="w-2/10">{todo.dueDate}</div>
+            <div className="w-1/12">{qna.qno}</div>
+            <div className="w-8/12">{qna.title}</div>
+            <div className="w-2/10">{qna.dueDate}</div>
           </div>
         </div>
       ))}
