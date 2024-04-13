@@ -37,10 +37,7 @@ export const createNewMember = async (signupParam) => {
 };
 
 export const getMemberId = async (email) => {
-  const header = { headers: { "Content-Type": "application/json" } };
-  const form = new FormData();
-  form.append("email", email);
-  const res = await axios.post(`${host}/email`, form, header);
+  const res = await axios.get(`${host}/email/${email}`);
   return res.data;
 };
 
