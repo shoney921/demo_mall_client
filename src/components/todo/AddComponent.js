@@ -24,7 +24,7 @@ export default function AddComponent() {
 
   const handleClickAdd = () => {
     postAdd(todo).then((data) => {
-      setResult(data.tno);
+      setResult(data.result);
     });
   };
 
