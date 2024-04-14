@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate, useParams } from "react-router";
+import { useParams } from "react-router";
 import ModifyComponent from "../../components/qna/ModifyComponent";
 
 export default function ModifyPage() {

@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import {
-  sendEmailVerification,
-  checkDuplicateNickname,
-  modifyMember,
-} from "../../api/memberApi";
+import { checkDuplicateNickname, modifyMember } from "../../api/memberApi";
 import useCustomLogin from "../../hooks/useCustomLogin";
 import ResultModal from "../common/ResultModal";
 

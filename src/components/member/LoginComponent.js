@@ -1,10 +1,7 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import { getMemberId } from "../../api/memberApi";
 import useCustomLogin from "../../hooks/useCustomLogin";
-import { login, loginPostAsync } from "../../slices/loginSlice";
 import KaKaoLoginComponent from "./KaKaoLoginComponent";
 
 const initState = {

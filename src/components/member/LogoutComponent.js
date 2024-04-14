@@ -1,7 +1,5 @@
 import React from "react";
-import { useDispatch } from "react-redux";
 import useCustomLogin from "../../hooks/useCustomLogin";
-import { logout } from "../../slices/loginSlice";
 
 export default function LogoutComponent() {
   const { doLogout, moveToPath } = useCustomLogin();

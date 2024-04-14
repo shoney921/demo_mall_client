@@ -1,4 +1,3 @@
-import React from "react";
 import jwtAxios from "../util/jwtUtil";
 import { API_SERVER_HOST } from "./qnaApi";
 
