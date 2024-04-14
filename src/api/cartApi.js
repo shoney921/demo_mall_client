@@ -1,5 +1,5 @@
+import { API_SERVER_HOST } from "../util/constants";
 import jwtAxios from "../util/jwtUtil";
-import { API_SERVER_HOST } from "./qnaApi";
 
 const host = `${API_SERVER_HOST}/api/cart`;
 

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { API_SERVER_HOST } from "./qnaApi";
+import { API_SERVER_HOST } from "../util/constants";
 
 const rest_api_key = "59ff3eb95f7f6ae20d0c8a53af4cfc85";
 const redirect_uri = "http://localhost:3000/member/kakao";

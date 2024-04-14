@@ -1,5 +1,5 @@
 import axios from "axios";
-import { API_SERVER_HOST } from "./qnaApi";
+import { API_SERVER_HOST } from "../util/constants";
 
 const host = `${API_SERVER_HOST}/api/member`;
 

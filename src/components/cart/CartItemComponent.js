@@ -1,5 +1,5 @@
 import React from "react";
-import { API_SERVER_HOST } from "../../api/qnaApi";
+import { API_SERVER_HOST } from "../../util/constants";
 
 const host = API_SERVER_HOST;
 
