@@ -1,8 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { postAdd } from "../../api/productsApi";
 import FetchingModal from "../common/FetchingModal";
 import ResultModal from "../common/ResultModal";
 import useCustomMove from "../../hooks/useCustomMove";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { QUERY_KEYS } from "../../util/constants";
 
 const initSate = {
   pname: "",
@@ -13,11 +15,19 @@ const initSate = {
 
 export default function AddComponent() {
   const [product, setProduct] = useState(initSate);
-  const [fetching, setFetching] = useState(false);
-  const [result, setResult] = useState(null);
   const uploadRef = useRef();
 
   const { moveToList } = useCustomMove();
+  const {
+    mutate: addProduct,
+    isPending,
+    isSuccess,
+    data,
+  } = useMutation({
+    mutationFn: (product) => postAdd(product),
+  });
+
+  const queryClient = useQueryClient();
 
   const handleChangeProduct = (e) => {
     product[e.target.name] = e.target.value;
@@ -41,16 +51,11 @@ export default function AddComponent() {
 
     console.log(formData);
 
-    setFetching(true);
-
-    postAdd(formData).then((data) => {
-      setFetching(false);
-      setResult(data.result);
-    });
+    addProduct(formData);
   };
 
   const closeModal = () => {
-    setResult(null);
+    queryClient.invalidateQueries(QUERY_KEYS.GET_PRODUCTS_LIST);
     moveToList({ page: 1 });
   };
 
@@ -116,12 +121,12 @@ export default function AddComponent() {
           </button>
         </div>
       </div>
-      {fetching ? <FetchingModal /> : <></>}
-      {result ? (
+      {isPending ? <FetchingModal /> : <></>}
+      {isSuccess ? (
         <ResultModal
           callbackFn={closeModal}
           title={"Product Add Complete"}
-          content={`${result} 상품 등록 완료`}
+          content={`${data.result} 상품 등록 완료`}
         />
       ) : (
         <></>
