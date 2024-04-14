@@ -1,4 +1,3 @@
-// import { API_SERVER_HOST } from "./qnaApi";
 import { API_SERVER_HOST } from "../util/constants";
 import jwtAxios from "../util/jwtUtil";
 
