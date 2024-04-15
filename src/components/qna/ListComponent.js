@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import React from "react";
 import { getList } from "../../api/qnaApi";
-import useCustomLogin from "../../hooks/useCustomLogin";
 import useCustomMove from "../../hooks/useCustomMove";
+import { moveToLoginReturn } from "../../hooks/useCustomLogin";
+import FetchingModal from "../common/FetchingModal";
 import PageComponent from "../common/PageComponent";
 
 const initState = {
@@ -18,22 +20,24 @@ const initState = {
 };
 
 export default function ListComponent() {
-  const { exceptionHandle } = useCustomLogin();
   const { page, size, moveToList, refresh, moveToRead } = useCustomMove();
 
-  const [serverData, setServerData] = useState(initState);
+  const { data, isFetching, error, isError } = useQuery({
+    queryKey: ["qna/list", { page, size, refresh }],
+    queryFn: () => getList({ page, size }),
+    staleTime: 1000 * 60,
+  });
 
-  useEffect(() => {
-    getList({ page, size })
-      .then((data) => {
-        console.log(data);
-        setServerData(data);
-      })
-      .catch((err) => exceptionHandle(err));
-  }, [page, size, refresh]);
+  const serverData = data ?? initState;
+
+  // if (isError) {
+  //   console.log(error);
+  //   return moveToLoginReturn();
+  // }
 
   return (
     <div>
+      {isFetching && <FetchingModal />}
       {serverData.dtoList.map((qna) => (
         <div
           key={qna.qno}

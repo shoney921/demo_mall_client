@@ -1,6 +1,8 @@
+import { useQuery } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
 import { getOne } from "../../api/qnaApi";
 import useCustomMove from "../../hooks/useCustomMove";
+import FetchingModal from "../common/FetchingModal";
 
 const initState = {
   qno: 0,
@@ -11,19 +13,20 @@ const initState = {
 };
 
 export default function ReadComponent({ qno }) {
-  const [qna, setQna] = useState(initState);
-
   const { moveToList, moveToModify } = useCustomMove();
 
-  useEffect(() => {
-    getOne(qno).then((data) => {
-      console.log(data);
-      setQna(data);
-    });
-  }, [qno]);
+  const { data, isFetching } = useQuery({
+    queryKey: ["qna", qno],
+    queryFn: () => getOne(qno),
+    staleTime: 1000 * 60,
+  });
+
+  const qna = data ?? initState;
 
   return (
     <div className="w-full border-2">
+      {isFetching && <FetchingModal />}
+
       {makeDiv("Tno", qna.qno)}
       {makeDiv("Title", qna.title)}
       {makeDiv("Writer", qna.writer)}

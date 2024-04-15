@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import React, { isValidElement, useEffect, useState } from "react";
 import { postAdd } from "../../api/qnaApi";
 import useCustomMove from "../../hooks/useCustomMove";
+import FetchingModal from "../common/FetchingModal";
 import ResultModal from "../common/ResultModal";
 
 const initState = {
@@ -11,31 +13,38 @@ const initState = {
 
 export default function AddComponent() {
   const [qna, setQna] = useState({ ...initState });
-
-  const [result, setResult] = useState(null);
-
   const { moveToList } = useCustomMove();
 
+  const addMutation = useMutation({
+    mutationFn: (qna) => postAdd(qna),
+  });
+
   const handleChangeQna = (e) => {
-    console.log(e.target);
     qna[e.target.name] = e.target.value;
     setQna({ ...qna });
   };
 
   const handleClickAdd = () => {
-    postAdd(qna).then((data) => {
-      setResult(data.result);
-    });
+    addMutation.mutate(qna);
   };
 
+  const queryClinet = useQueryClient();
+
   const closeModal = () => {
-    setQna({ ...initState });
-    setResult(null);
+    queryClinet.invalidateQueries("qna/list");
     moveToList({ page: 1 });
   };
 
   return (
     <div className="text-xl bg-orange-300 mt-10 m-2 p-4">
+      {addMutation.isPending && <FetchingModal />}
+      {addMutation.isSuccess && (
+        <ResultModal
+          title={"Add Result"}
+          content={`${addMutation.data.result} 추가 완료`}
+          callbackFn={closeModal}
+        />
+      )}
       <div className="flex justify-center">
         <div className="relative mb-4 flex w-full flex-wrap items-stretch">
           <div className="w-1/5 p-6 ">TITLE</div>
@@ -83,15 +92,6 @@ export default function AddComponent() {
           </button>
         </div>
       </div>
-      {result ? (
-        <ResultModal
-          title={"Add Result"}
-          content={`${result} 추가 완료`}
-          callbackFn={closeModal}
-        />
-      ) : (
-        <></>
-      )}
     </div>
   );
 }
