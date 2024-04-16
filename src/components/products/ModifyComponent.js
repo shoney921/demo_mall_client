@@ -3,7 +3,9 @@ import { deleteOne, getOne, putOne } from "../../api/productsApi";
 import useCustomMove from "../../hooks/useCustomMove";
 import FetchingModal from "../common/FetchingModal";
 import ResultModal from "../common/ResultModal";
-import { API_SERVER_HOST } from "../../util/constants";
+import { API_SERVER_HOST, QUERY_KEYS } from "../../util/constants";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import useCustomLogin from "../../hooks/useCustomLogin";
 
 const host = API_SERVER_HOST;
 
@@ -17,19 +19,49 @@ const initState = {
 };
 
 export default function ModifyComponent({ pno }) {
-  const [product, setProduct] = useState(initState);
-  const [fetching, setFetching] = useState(false);
-  const [result, setResult] = useState(false);
+  const { exceptionHandle } = useCustomLogin();
   const { moveToList, moveToRead } = useCustomMove();
+  const [product, setProduct] = useState(initState);
   const uploadRef = useRef();
+  const queryClient = useQueryClient();
 
-  useEffect(() => {
-    setFetching(true);
-    getOne(pno).then((data) => {
-      setProduct(data);
-      setFetching(false);
-    });
-  }, [pno]);
+  const {
+    data: detailData,
+    isFetching: isDetailFetching,
+    isError: isDetailError,
+    error: detailError,
+  } = useQuery({
+    queryKey: [QUERY_KEYS.GET_PRODUCT_DETAIL, pno],
+    queryFn: () => getOne(pno),
+  });
+
+  const {
+    mutate: modifyProduct,
+    isPending: isModifyPending,
+    isSuccess: isModifySuccess,
+    isError: isModifyError,
+    error: modifyError,
+  } = useMutation({
+    mutationFn: ({ pno, product }) => putOne(pno, product),
+  });
+
+  const {
+    mutate: deleteProduct,
+    isPending: isDeletePending,
+    isSuccess: isDeleteSuccess,
+    isError: isDeleteError,
+    error: deleteError,
+  } = useMutation({
+    mutationFn: (pno) => deleteOne(pno),
+  });
+
+  const result = isModifySuccess
+    ? "Modified"
+    : isDeleteSuccess
+    ? "Deleted"
+    : undefined;
+
+  const fetching = isDetailFetching || isModifyPending || isDeletePending;
 
   const handleChangeProduct = (e) => {
     product[e.target.name] = e.target.value;
@@ -61,31 +93,37 @@ export default function ModifyComponent({ pno }) {
       formData.append("uploadedFileNames", product.uploadedFileNames[i]);
     }
 
-    setFetching(true);
-
-    putOne(pno, formData).then((data) => {
-      setResult("Modified");
-      setFetching(false);
-    });
+    modifyProduct({ pno, product });
   };
 
-  const handleClickDelete = () => {
-    setFetching(true);
-    deleteOne(pno).then((data) => {
-      setResult("Deleted");
-      setFetching(false);
-    });
-  };
+  const handleClickDelete = () => deleteProduct(pno);
 
   const closeModal = () => {
     if (result === "Modified") {
+      queryClient.invalidateQueries(QUERY_KEYS.GET_PRODUCT_DETAIL);
       moveToRead(pno);
     }
     if (result === "Deleted") {
+      queryClient.invalidateQueries(QUERY_KEYS.GET_PRODUCTS_LIST);
       moveToList({ page: 1 });
     }
-    setResult(null);
   };
+
+  useEffect(() => {
+    if (isDetailError) {
+      exceptionHandle(detailError);
+    } else if (isModifyError) {
+      exceptionHandle(modifyError);
+    } else if (isDeleteError) {
+      exceptionHandle(deleteError);
+    }
+  }, [isDetailError, isModifyError, isDeleteError]);
+
+  useEffect(() => {
+    if (detailData) {
+      setProduct(detailData);
+    }
+  }, [detailData]);
 
   return (
     <div className="border-2 border-sky-200 mt-10 m-2 p-4">
