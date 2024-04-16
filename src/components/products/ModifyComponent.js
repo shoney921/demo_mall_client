@@ -42,7 +42,9 @@ export default function ModifyComponent({ pno }) {
     isError: isModifyError,
     error: modifyError,
   } = useMutation({
-    mutationFn: ({ pno, product }) => putOne(pno, product),
+    mutationFn: ({ pno, product }) => {
+      putOne(pno, product);
+    },
   });
 
   const {
@@ -93,7 +95,7 @@ export default function ModifyComponent({ pno }) {
       formData.append("uploadedFileNames", product.uploadedFileNames[i]);
     }
 
-    modifyProduct({ pno, product });
+    modifyProduct({ pno, product: formData });
   };
 
   const handleClickDelete = () => deleteProduct(pno);
