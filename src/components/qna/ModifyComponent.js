@@ -1,7 +1,9 @@
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
 import { deleteOne, getOne, putOne } from "../../api/qnaApi";
 import useCustomMove from "../../hooks/useCustomMove";
 import ResultModal from "../common/ResultModal";
+import FetchingModal from "../common/FetchingModal";
 
 const initState = {
   qno: 0,
@@ -18,11 +20,25 @@ export default function ModifyComponent({ qno }) {
 
   const { moveToRead, moveToList } = useCustomMove();
 
+  const delMutation = useMutation({
+    mutationFn: (qno) => deleteOne(qno),
+  });
+
+  const modMutation = useMutation({
+    mutationFn: (qna) => putOne(qna),
+  });
+
+  const query = useQuery({
+    queryKey: ["qna", qno],
+    queryFn: () => getOne(qno),
+    staleTime: Infinity,
+  });
+
   useEffect(() => {
-    getOne(qno).then((data) => {
-      setQna(data);
-    });
-  }, [qno]);
+    if (query.isSuccess) {
+      setQna(query.data);
+    }
+  }, [qno, query.data, query.isSuccess]);
 
   const handleChangeQna = (e) => {
     console.log(e.target);
@@ -37,29 +53,38 @@ export default function ModifyComponent({ qno }) {
   };
 
   const handleClickDelete = () => {
-    deleteOne(qno).then((data) => {
-      console.log("delete result:" + data);
-      setResult("Deleted");
-    });
+    delMutation.mutate(qno);
   };
 
   const handleClickModify = () => {
-    putOne(qna).then((data) => {
-      console.log("modify result:" + data);
-      setResult("Modified");
-    });
+    modMutation.mutate(qna);
   };
 
+  const queryClient = useQueryClient();
+
   const closeModal = () => {
-    if (result === "Deleted") {
+    queryClient.invalidateQueries(["qna"], qno);
+    queryClient.invalidateQueries("qna/list");
+    if (delMutation.isSuccess) {
       moveToList();
-    } else {
+    }
+    if (modMutation.isSuccess) {
       moveToRead(qno);
     }
   };
 
   return (
     <div className="border-2 border-sky-200 mt-10 m-2 p-4">
+      {(query.isFetching || delMutation.isPending || modMutation.isPending) && (
+        <FetchingModal />
+      )}
+      {(delMutation.isSuccess || modMutation.isSuccess) && (
+        <ResultModal
+          title={"처리결과"}
+          content="정상처리 완료"
+          callbackFn={closeModal}
+        />
+      )}
       <div className="flex justify-center mt-10">
         <div className="relative mb-4 flex w-full flex-wrap items-stretch">
           <div className="w-1/5 p-6 text-right font-bold">TNO</div>
@@ -130,15 +155,6 @@ export default function ModifyComponent({ qno }) {
           Modify
         </button>
       </div>
-      {result ? (
-        <ResultModal
-          title={`처리결과`}
-          content={`${result}`}
-          callbackFn={closeModal}
-        />
-      ) : (
-        <></>
-      )}
     </div>
   );
 }
