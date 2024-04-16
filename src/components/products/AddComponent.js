@@ -1,10 +1,11 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { postAdd } from "../../api/productsApi";
 import FetchingModal from "../common/FetchingModal";
 import ResultModal from "../common/ResultModal";
 import useCustomMove from "../../hooks/useCustomMove";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { QUERY_KEYS } from "../../util/constants";
+import useCustomLogin from "../../hooks/useCustomLogin";
 
 const initSate = {
   pname: "",
@@ -14,6 +15,7 @@ const initSate = {
 };
 
 export default function AddComponent() {
+  const { exceptionHandle } = useCustomLogin();
   const [product, setProduct] = useState(initSate);
   const uploadRef = useRef();
 
@@ -23,6 +25,8 @@ export default function AddComponent() {
     isPending,
     isSuccess,
     data,
+    isError,
+    error,
   } = useMutation({
     mutationFn: (product) => postAdd(product),
   });
@@ -58,6 +62,12 @@ export default function AddComponent() {
     queryClient.invalidateQueries(QUERY_KEYS.GET_PRODUCTS_LIST);
     moveToList({ page: 1 });
   };
+
+  useEffect(() => {
+    if (isError) {
+      exceptionHandle(error);
+    }
+  }, [isError]);
 
   return (
     <div className="border-2 border-sky-200 mt-10 m-2 p-4">
