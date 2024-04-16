@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { getOne } from "../../api/productsApi";
 import FetchingModal from "../common/FetchingModal";
 import useCustomMove from "../../hooks/useCustomMove";
 import useCustomCart from "../../hooks/useCustomCart";
 import useCustomLogin from "../../hooks/useCustomLogin";
-import { API_SERVER_HOST } from "../../util/constants";
+import { API_SERVER_HOST, QUERY_KEYS } from "../../util/constants";
+import { useQuery } from "@tanstack/react-query";
 
 const host = API_SERVER_HOST;
 
@@ -17,19 +18,21 @@ const initState = {
 };
 
 export default function ReadComponent({ pno }) {
-  const [product, setProduct] = useState(initState);
-  const [fetiching, setFetching] = useState(false);
   const { moveToList, moveToModify } = useCustomMove();
   const { cartItems, changeCart } = useCustomCart();
-  const { loginState } = useCustomLogin();
+  const { loginState, exceptionHandle } = useCustomLogin();
 
-  useEffect(() => {
-    setFetching(true);
-    getOne(pno).then((data) => {
-      setProduct(data);
-      setFetching(false);
-    });
-  }, [pno]);
+  const {
+    data: detailData,
+    isFetching,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: [QUERY_KEYS.GET_PRODUCT_DETAIL, pno],
+    queryFn: () => getOne(pno),
+  });
+
+  const product = detailData ?? initState;
 
   const handleClickAddCart = () => {
     let qty = 1;
@@ -48,8 +51,15 @@ export default function ReadComponent({ pno }) {
     changeCart({ memberId: loginState.id, qty: qty, pno: pno });
   };
 
+  useEffect(() => {
+    if (isError) {
+      exceptionHandle(error);
+    }
+  }, [isError]);
+
   return (
     <div>
+      {isFetching && <FetchingModal />}
       ReadComponent
       {makeDiv("pno", product.pno)}
       {makeDiv("pname", product.pname)}
@@ -64,7 +74,6 @@ export default function ReadComponent({ pno }) {
           src={`${host}/api/products/view/${imgFile}`}
         />
       ))}
-      {fetiching ? <FetchingModal /> : <></>}
       <div className="flex flex-row justify-end">
         <button
           className="bg-green-300 m-2 p-2 w-20"

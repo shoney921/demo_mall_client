@@ -7,6 +7,7 @@ export const QUERY_KEYS = {
 
   // products
   GET_PRODUCTS_LIST: "getProductsList",
+  GET_PRODUCT_DETAIL: "getProductDetail",
 
   // qna
 };
